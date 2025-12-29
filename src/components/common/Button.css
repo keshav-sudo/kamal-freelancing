@@ -1,0 +1,97 @@
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Sizes */
+.btn-small {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.btn-medium {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-base);
+}
+
+.btn-large {
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  font-size: var(--font-size-lg);
+}
+
+/* Primary Variant */
+.btn-primary {
+  color: var(--white);
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+  box-shadow: var(--shadow-md), 0 4px 14px 0 rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 6px 20px 0 rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Secondary Variant */
+.btn-secondary {
+  color: var(--primary-700);
+  background: var(--primary-50);
+  border: 2px solid var(--primary-100);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--primary-100);
+  border-color: var(--primary-200);
+  transform: translateY(-2px);
+}
+
+/* Outline Variant */
+.btn-outline {
+  color: var(--white);
+  background: transparent;
+  border: 2px solid var(--white);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--white);
+  color: var(--primary-700);
+  transform: translateY(-2px);
+}
+
+/* Ghost Variant */
+.btn-ghost {
+  color: var(--gray-700);
+  background: transparent;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--gray-100);
+}
