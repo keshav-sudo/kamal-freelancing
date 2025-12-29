@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
@@ -22,11 +22,40 @@ const Header = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  // Close menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
+
+  // Prevent scrolling when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
+  // Handle resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024 && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMenuOpen]);
+
   return (
-    <header className="header">
+    <header className={`header ${isMenuOpen ? 'menu-open' : ''}`}>
       <div className="container header-container">
         {/* Logo */}
-        <Link to="/" className="header-logo">
+        <Link to="/" className="header-logo" onClick={() => setIsMenuOpen(false)}>
           <div className="logo-icon">
             <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2"/>
@@ -54,22 +83,28 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* CTA Button */}
-        <Link to="/contact" className="header-cta">
-          Request Quote
-        </Link>
+        {/* Desktop CTA Button */}
+        <div className="header-actions">
+           <Link to="/contact" className="header-cta">
+            Request Quote
+          </Link>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className={`menu-toggle ${isMenuOpen ? 'open' : ''}`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+          {/* Mobile Menu Toggle */}
+          <button
+            className={`menu-toggle ${isMenuOpen ? 'open' : ''}`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-menu-overlay ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
 
       {/* Mobile Menu */}
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
@@ -79,7 +114,6 @@ const Header = () => {
               key={link.path}
               to={link.path}
               className={`mobile-nav-link ${isActive(link.path) ? 'active' : ''}`}
-              onClick={() => setIsMenuOpen(false)}
             >
               {link.label}
             </Link>
@@ -87,7 +121,6 @@ const Header = () => {
           <Link
             to="/contact"
             className="mobile-cta"
-            onClick={() => setIsMenuOpen(false)}
           >
             Request Quote
           </Link>

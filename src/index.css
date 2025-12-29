@@ -109,6 +109,24 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding-top: 60px;
+  }
+}
+
+
 img {
   max-width: 100%;
   height: auto;
